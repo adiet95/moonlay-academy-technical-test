@@ -8,8 +8,8 @@ type ListRepo interface {
 	FindListId(id int) (*database.List, error)
 	AddList(data *database.List) (*database.List, error)
 	AddSub(data *database.SubList) (*database.SubList, error)
-	UpdateList(data *database.List) (*database.List, error)
-	UpdateSub(data *database.SubList) (*database.SubList, error)
+	UpdateList(data *database.List, id int) (*database.List, error)
+	UpdateSub(data *database.SubList, id int) (*database.SubList, error)
 	DeleteList(id int) error
 	DeleteSub(id int) error
 }
