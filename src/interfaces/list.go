@@ -13,7 +13,7 @@ type ListRepo interface {
 	DeleteList(id int) error
 	FindId(id int) (*database.List, error)
 	GetListAll() (*database.Lists, error)
-	GetListAllWOSub() (*database.Sublists, error)
+	GetListAllWOSub() (*database.Lists, error)
 }
 
 type ListService interface {

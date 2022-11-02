@@ -10,11 +10,10 @@ func New(rt *echo.Echo, db *gorm.DB) {
 	svc := NewService(repo)
 	ctrl := NewCtrl(svc)
 
-	rt.GET("/find", ctrl.FindListId)
+	rt.GET("/find/:id", ctrl.FindListId)
 	sub := rt.Group("/sub")
 	sub.POST("", ctrl.AddSub)
 	sub.PUT("", ctrl.UpdateSub)
-
-	rt.DELETE("/sub", ctrl.DeleteSub)
+	sub.DELETE("/:id", ctrl.DeleteSub)
 
 }

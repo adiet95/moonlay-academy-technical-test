@@ -24,7 +24,7 @@ func (l *sublist_repo) FindListId(id int) (*database.Sublists, error) {
 		return nil, errors.New("list datas is empty")
 	}
 	if result.Error != nil {
-		return nil, errors.New("failed obtain datas list")
+		return nil, errors.New("failed obtain sublist datas")
 	}
 	return &datas, nil
 }
@@ -34,10 +34,10 @@ func (l *sublist_repo) AddSub(data *database.SubList) (*database.SubList, error)
 	result := l.db.Where("list_id = ?", data.ListId).Find(&list)
 
 	if result.RowsAffected == 0 {
-		return nil, errors.New("list data not found")
+		return nil, errors.New("sublist data not found")
 	}
 	if result.Error != nil {
-		return nil, errors.New("failed obtain datas list")
+		return nil, errors.New("failed obtain sublist datas")
 	}
 
 	res := l.db.Create(data)
@@ -54,15 +54,15 @@ func (l *sublist_repo) UpdateSub(data *database.SubList, id int) (*database.SubL
 	result := l.db.Where("sublist_id = ?", id).Find(&datas)
 
 	if result.RowsAffected == 0 {
-		return nil, errors.New("list datas is empty")
+		return nil, errors.New("sublist data not found")
 	}
 	if result.Error != nil {
-		return nil, errors.New("failed obtain datas list")
+		return nil, errors.New("failed obtain sublist data")
 	}
 
 	res := l.db.Where("sublist_id = ?", id).Updates(data)
 	if res.Error != nil {
-		return nil, errors.New("failed obtain datas list")
+		return nil, errors.New("failed update sublist data")
 	}
 
 	return data, nil
@@ -75,10 +75,10 @@ func (l *sublist_repo) DeleteSub(id int) error {
 	result := l.db.Where("sublist_id = ?", id).Find(&datas)
 
 	if result.RowsAffected == 0 {
-		return errors.New("list datas is empty")
+		return errors.New("sublist data not found")
 	}
 	if result.Error != nil {
-		return errors.New("failed obtain datas list")
+		return errors.New("failed obtain sublist data")
 	}
 
 	res := l.db.Where("sublist_id = ?", id).Delete(&data)

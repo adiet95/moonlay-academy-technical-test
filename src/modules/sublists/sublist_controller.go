@@ -19,12 +19,11 @@ func NewCtrl(reps interfaces.SublistService) *sublist_ctrl {
 }
 
 func (l *sublist_ctrl) FindListId(e echo.Context) error {
-	v := e.Request().URL.Query().Get("id")
+	v := e.Param("id")
 	id, _ := strconv.Atoi(v)
 
 	l.svc.FindListId(id).Send(e)
 	return nil
-
 }
 
 func (l *sublist_ctrl) AddSub(e echo.Context) error {
@@ -34,13 +33,12 @@ func (l *sublist_ctrl) AddSub(e echo.Context) error {
 		libs.New(err.Error(), 400, true)
 		return err
 	}
-
 	l.svc.AddSub(&data).Send(e)
 	return nil
 }
 
 func (l *sublist_ctrl) UpdateSub(e echo.Context) error {
-	v := e.Request().URL.Query().Get("id")
+	v := e.Param("id")
 	id, _ := strconv.Atoi(v)
 
 	var data database.SubList
@@ -49,17 +47,14 @@ func (l *sublist_ctrl) UpdateSub(e echo.Context) error {
 		libs.New(err.Error(), 400, true)
 		return err
 	}
-
 	l.svc.UpdateSub(&data, id).Send(e)
 	return nil
-
 }
 
 func (l *sublist_ctrl) DeleteSub(e echo.Context) error {
-	v := e.Request().URL.Query().Get("id")
+	v := e.Param("id")
 	id, _ := strconv.Atoi(v)
 
 	l.svc.DeleteSub(id).Send(e)
 	return nil
-
 }

@@ -27,7 +27,6 @@ func (l *sublist_service) AddSub(data *database.SubList) *libs.Response {
 	if validate != nil {
 		return libs.New(validate.Error(), 400, true)
 	}
-
 	data, err := l.list_repo.AddSub(data)
 	if err != nil {
 		return libs.New(err.Error(), 400, true)
@@ -40,7 +39,6 @@ func (l *sublist_service) UpdateSub(data *database.SubList, id int) *libs.Respon
 	if validate != nil {
 		return libs.New(validate.Error(), 400, true)
 	}
-
 	data, err := l.list_repo.UpdateSub(data, id)
 	if err != nil {
 		return libs.New(err.Error(), 400, true)

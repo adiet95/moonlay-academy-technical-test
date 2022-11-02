@@ -46,7 +46,6 @@ func (l *list_ctrl) GetListWOSub(e echo.Context) error {
 	offset = limit * (pages - 1)
 	l.svc.GetListWOSub(limit, offset).Send(e)
 	return nil
-
 }
 
 func (l *list_ctrl) GetAllWithSub(e echo.Context) error {
@@ -81,7 +80,7 @@ func (l *list_ctrl) AddList(e echo.Context) error {
 
 func (l *list_ctrl) UpdateList(e echo.Context) error {
 	e.Logger().SetHeader("multipart/form-data")
-	v := e.Request().URL.Query().Get("id")
+	v := e.Param("id")
 	id, _ := strconv.Atoi(v)
 
 	var decoder = schema.NewDecoder()
@@ -103,7 +102,7 @@ func (l *list_ctrl) UpdateList(e echo.Context) error {
 }
 
 func (l *list_ctrl) DeleteList(e echo.Context) error {
-	v := e.Request().URL.Query().Get("id")
+	v := e.Param("id")
 	id, _ := strconv.Atoi(v)
 
 	l.svc.DeleteList(id).Send(e)

@@ -5,6 +5,7 @@ import (
 
 	"github.com/adiet95/moonlay-academy-technical-test/src/database"
 	"github.com/adiet95/moonlay-academy-technical-test/src/modules/lists"
+	"github.com/adiet95/moonlay-academy-technical-test/src/modules/sublists"
 	"github.com/labstack/echo/v4"
 )
 
@@ -17,6 +18,7 @@ func New() (*echo.Echo, error) {
 	}
 
 	lists.New(mainRoute, db)
+	sublists.New(mainRoute, db)
 
 	return mainRoute, nil
 }

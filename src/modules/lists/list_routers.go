@@ -14,12 +14,12 @@ func New(rt *echo.Echo, db *gorm.DB) {
 	rt.GET("/:pages", ctrl.GetListWOSub)
 	rt.GET("/sub/:pages", ctrl.GetListWithSub)
 	rt.GET("/", ctrl.GetAllWithSub)
-	rt.GET("/sub/", ctrl.GetListWOSub)
+	rt.GET("/sub", ctrl.GetAllWOSub)
+
+	rt.DELETE("/:id", ctrl.DeleteList)
 
 	list := rt.Group("/list")
 	list.Use(middleware.UploadFile)
 	list.POST("", ctrl.AddList)
-	list.PUT("", ctrl.UpdateList, middleware.UploadFile)
-
-	rt.DELETE("/", ctrl.DeleteList)
+	list.PUT("/:id", ctrl.UpdateList)
 }
