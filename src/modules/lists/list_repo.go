@@ -18,7 +18,7 @@ func NewRepo(db *gorm.DB) *list_repo {
 func (l *list_repo) GetListWithSub(limit, offset int) (*database.Lists, error) {
 	var datas database.Lists
 
-	result := l.db.Preload("Sublist").Limit(limit).Offset(offset).Order("list_id asc").Find(&datas)
+	result := l.db.Preload("Sub").Limit(limit).Offset(offset).Find(&datas)
 
 	if result.RowsAffected == 0 {
 		return nil, errors.New("list datas is empty")
@@ -32,7 +32,7 @@ func (l *list_repo) GetListWithSub(limit, offset int) (*database.Lists, error) {
 func (l *list_repo) GetListWOSub(limit, offset int) (*database.Lists, error) {
 	var datas database.Lists
 
-	result := l.db.Limit(limit).Offset(offset).Order("list_id asc").Find(&datas)
+	result := l.db.Limit(limit).Offset(offset).Find(&datas)
 
 	if result.RowsAffected == 0 {
 		return nil, errors.New("list datas is empty")
@@ -58,29 +58,18 @@ func (l *list_repo) FindListId(id int) (*database.List, error) {
 }
 
 func (l *list_repo) AddList(data *database.List) (*database.List, error) {
-	var datas database.Lists
-
-	result := l.db.Find(&datas)
-
-	if result.RowsAffected == 0 {
-		return nil, errors.New("list datas is empty")
-	}
-	if result.Error != nil {
-		return nil, errors.New("failed obtain datas list")
-	}
 
 	res := l.db.Create(data)
 	if res.Error != nil {
-		return nil, errors.New("failed obtain datas list")
+		return nil, errors.New("failed create data list")
 	}
 
 	return data, nil
 }
 
 func (l *list_repo) AddSub(data *database.SubList) (*database.SubList, error) {
-	var datas database.Sublists
-
-	result := l.db.Find(&datas)
+	var list database.Lists
+	result := l.db.Where("list_id = ?", data.ListId).Find(&list)
 
 	if result.RowsAffected == 0 {
 		return nil, errors.New("list datas is empty")
@@ -91,14 +80,14 @@ func (l *list_repo) AddSub(data *database.SubList) (*database.SubList, error) {
 
 	res := l.db.Create(data)
 	if res.Error != nil {
-		return nil, errors.New("failed obtain datas list")
+		return nil, errors.New("failed to create data sublist")
 	}
 
 	return data, nil
 }
 
 func (l *list_repo) UpdateList(data *database.List, id int) (*database.List, error) {
-	var datas database.Lists
+	var datas database.List
 
 	result := l.db.Where("list_id = ?", id).Find(&datas)
 
@@ -109,7 +98,7 @@ func (l *list_repo) UpdateList(data *database.List, id int) (*database.List, err
 		return nil, errors.New("failed obtain datas list")
 	}
 
-	res := l.db.Updates(data)
+	res := l.db.Where("list_id = ?", id).Updates(data)
 	if res.Error != nil {
 		return nil, errors.New("failed obtain datas list")
 	}
@@ -129,7 +118,7 @@ func (l *list_repo) UpdateSub(data *database.SubList, id int) (*database.SubList
 		return nil, errors.New("failed obtain datas list")
 	}
 
-	res := l.db.Updates(data)
+	res := l.db.Where("sublist_id = ?", id).Updates(data)
 	if res.Error != nil {
 		return nil, errors.New("failed obtain datas list")
 	}
@@ -162,7 +151,7 @@ func (l *list_repo) DeleteSub(id int) error {
 	var datas database.Sublists
 	var data database.SubList
 
-	result := l.db.Where("list_id = ?", id).Find(&datas)
+	result := l.db.Where("sublist_id = ?", id).Find(&datas)
 
 	if result.RowsAffected == 0 {
 		return errors.New("list datas is empty")
@@ -171,7 +160,7 @@ func (l *list_repo) DeleteSub(id int) error {
 		return errors.New("failed obtain datas list")
 	}
 
-	res := l.db.Where("list_id = ?", id).Delete(&data)
+	res := l.db.Where("sublist_id = ?", id).Delete(&data)
 	if res.Error != nil {
 		return errors.New("failed obtain datas list")
 	}

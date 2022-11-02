@@ -1,6 +1,8 @@
 package lists
 
 import (
+	"encoding/json"
+	"net/http"
 	"strconv"
 
 	"github.com/adiet95/moonlay-academy-technical-test/src/database"
@@ -62,6 +64,12 @@ func (l *list_ctrl) AddList(e echo.Context) error {
 	var data database.List
 	file := e.Get("dir")
 
+	u := new(database.SubList)
+	err1 := e.Bind(u)
+	if err1 != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err1.Error())
+	}
+
 	//file upload
 	files := file.(string)
 	data.File = files
@@ -77,20 +85,13 @@ func (l *list_ctrl) AddList(e echo.Context) error {
 }
 
 func (l *list_ctrl) AddSub(e echo.Context) error {
-	e.Logger().SetHeader("multipart/form-data")
-	var decoder = schema.NewDecoder()
 	var data database.SubList
-	file := e.Get("dir")
-
-	//file upload
-	files := file.(string)
-	data.SubFile = files
-
-	err := decoder.Decode(&data, e.Request().PostForm)
+	err := json.NewDecoder(e.Request().Body).Decode(&data)
 	if err != nil {
 		libs.New(err.Error(), 400, true)
 		return err
 	}
+
 	l.svc.AddSub(&data).Send(e)
 	return nil
 }
@@ -129,7 +130,7 @@ func (l *list_ctrl) UpdateSub(e echo.Context) error {
 
 	//file upload
 	files := file.(string)
-	data.SubFile = files
+	data.File = files
 
 	err := decoder.Decode(&data, e.Request().PostForm)
 	if err != nil {

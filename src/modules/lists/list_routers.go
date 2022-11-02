@@ -11,15 +11,18 @@ func New(rt *echo.Echo, db *gorm.DB) {
 	svc := NewService(repo)
 	ctrl := NewCtrl(svc)
 
-	rt.GET("/", ctrl.GetListWithSub)
-	rt.GET("/sub", ctrl.GetListWOSub)
+	rt.GET("/", ctrl.GetListWOSub)
+	rt.GET("/sub", ctrl.GetListWithSub)
 	rt.GET("/find", ctrl.FindListId)
 
-	rt.POST("/", ctrl.AddList, middleware.UploadFile)
-	rt.POST("/sub", ctrl.AddSub, middleware.UploadFile)
+	list := rt.Group("/list")
+	list.Use(middleware.UploadFile)
+	list.POST("", ctrl.AddList)
+	list.PUT("", ctrl.UpdateList, middleware.UploadFile)
 
-	rt.PUT("/", ctrl.UpdateList, middleware.UploadFile)
-	rt.PUT("/sub", ctrl.UpdateSub, middleware.UploadFile)
+	sub := rt.Group("/sub")
+	sub.POST("", ctrl.AddSub)
+	sub.PUT("", ctrl.UpdateSub)
 
 	rt.DELETE("/", ctrl.DeleteList)
 	rt.DELETE("/sub", ctrl.DeleteSub)

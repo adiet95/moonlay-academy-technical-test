@@ -54,7 +54,7 @@ func UploadFile(next echo.HandlerFunc) echo.HandlerFunc {
 		}
 
 		// Membuat file baru di direktori file upload
-		fileName := e.FormValue("file_name")
+		fileName := e.FormValue("file")
 		temp := fmt.Sprintf("%d-%s-%s", time.Now().UnixNano(), fileName, filepath.Ext(fileHeader.Filename))
 		res := fmt.Sprintf("./uploads/%d-%s-%s", time.Now().UnixNano(), fileName, filepath.Ext(fileHeader.Filename))
 		dst, err := os.Create(res)

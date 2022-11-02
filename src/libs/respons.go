@@ -1,8 +1,6 @@
 package libs
 
 import (
-	"encoding/json"
-
 	"github.com/labstack/echo/v4"
 )
 
@@ -20,7 +18,7 @@ func (res *Response) Send(e echo.Context) {
 	if res.IsError {
 		e.Response().Writer.WriteHeader(res.Code)
 	}
-	err := json.NewEncoder(e.Response().Writer).Encode(res)
+	err := e.JSON(200, res)
 	if err != nil {
 		e.Response().Writer.Write([]byte("Error When Encode respone"))
 	}
