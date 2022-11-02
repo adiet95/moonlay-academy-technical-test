@@ -1,8 +1,6 @@
 package lists
 
 import (
-	"encoding/json"
-	"net/http"
 	"strconv"
 
 	"github.com/adiet95/moonlay-academy-technical-test/src/database"
@@ -21,7 +19,8 @@ func NewCtrl(reps interfaces.ListService) *list_ctrl {
 }
 
 func (l *list_ctrl) GetListWithSub(e echo.Context) error {
-	v := e.Request().URL.Query().Get("pages")
+	v := e.Param("pages")
+
 	pages, _ := strconv.Atoi(v)
 	limit := 5
 	var offset int
@@ -35,7 +34,8 @@ func (l *list_ctrl) GetListWithSub(e echo.Context) error {
 }
 
 func (l *list_ctrl) GetListWOSub(e echo.Context) error {
-	v := e.Request().URL.Query().Get("pages")
+	v := e.Param("pages")
+
 	pages, _ := strconv.Atoi(v)
 	limit := 5
 	var offset int
@@ -49,13 +49,14 @@ func (l *list_ctrl) GetListWOSub(e echo.Context) error {
 
 }
 
-func (l *list_ctrl) FindListId(e echo.Context) error {
-	v := e.Request().URL.Query().Get("id")
-	id, _ := strconv.Atoi(v)
-
-	l.svc.FindListId(id).Send(e)
+func (l *list_ctrl) GetAllWithSub(e echo.Context) error {
+	l.svc.GetListAll().Send(e)
 	return nil
+}
 
+func (l *list_ctrl) GetAllWOSub(e echo.Context) error {
+	l.svc.GetListAllWOSub().Send(e)
+	return nil
 }
 
 func (l *list_ctrl) AddList(e echo.Context) error {
@@ -63,12 +64,6 @@ func (l *list_ctrl) AddList(e echo.Context) error {
 	var decoder = schema.NewDecoder()
 	var data database.List
 	file := e.Get("dir")
-
-	u := new(database.SubList)
-	err1 := e.Bind(u)
-	if err1 != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err1.Error())
-	}
 
 	//file upload
 	files := file.(string)
@@ -82,18 +77,6 @@ func (l *list_ctrl) AddList(e echo.Context) error {
 	l.svc.AddList(&data).Send(e)
 	return nil
 
-}
-
-func (l *list_ctrl) AddSub(e echo.Context) error {
-	var data database.SubList
-	err := json.NewDecoder(e.Request().Body).Decode(&data)
-	if err != nil {
-		libs.New(err.Error(), 400, true)
-		return err
-	}
-
-	l.svc.AddSub(&data).Send(e)
-	return nil
 }
 
 func (l *list_ctrl) UpdateList(e echo.Context) error {
@@ -119,43 +102,11 @@ func (l *list_ctrl) UpdateList(e echo.Context) error {
 
 }
 
-func (l *list_ctrl) UpdateSub(e echo.Context) error {
-	e.Logger().SetHeader("multipart/form-data")
-	v := e.Request().URL.Query().Get("id")
-	id, _ := strconv.Atoi(v)
-
-	var decoder = schema.NewDecoder()
-	var data database.SubList
-	file := e.Get("dir")
-
-	//file upload
-	files := file.(string)
-	data.File = files
-
-	err := decoder.Decode(&data, e.Request().PostForm)
-	if err != nil {
-		libs.New(err.Error(), 400, true)
-		return err
-	}
-	l.svc.UpdateSub(&data, id).Send(e)
-	return nil
-
-}
-
 func (l *list_ctrl) DeleteList(e echo.Context) error {
 	v := e.Request().URL.Query().Get("id")
 	id, _ := strconv.Atoi(v)
 
 	l.svc.DeleteList(id).Send(e)
-	return nil
-
-}
-
-func (l *list_ctrl) DeleteSub(e echo.Context) error {
-	v := e.Request().URL.Query().Get("id")
-	id, _ := strconv.Atoi(v)
-
-	l.svc.DeleteSub(id).Send(e)
 	return nil
 
 }

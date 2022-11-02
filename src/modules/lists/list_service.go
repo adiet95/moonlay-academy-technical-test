@@ -1,6 +1,8 @@
 package lists
 
 import (
+	"os"
+
 	"github.com/adiet95/moonlay-academy-technical-test/src/database"
 	"github.com/adiet95/moonlay-academy-technical-test/src/interfaces"
 	"github.com/adiet95/moonlay-academy-technical-test/src/libs"
@@ -30,8 +32,16 @@ func (l *list_service) GetListWOSub(limit, offset int) *libs.Response {
 	return libs.New(data, 200, false)
 }
 
-func (l *list_service) FindListId(id int) *libs.Response {
-	data, err := l.list_repo.FindListId(id)
+func (l *list_service) GetListAll() *libs.Response {
+	data, err := l.list_repo.GetListAll()
+	if err != nil {
+		return libs.New(err.Error(), 400, true)
+	}
+	return libs.New(data, 200, false)
+}
+
+func (l *list_service) GetListAllWOSub() *libs.Response {
+	data, err := l.list_repo.GetListAllWOSub()
 	if err != nil {
 		return libs.New(err.Error(), 400, true)
 	}
@@ -52,55 +62,41 @@ func (l *list_service) AddList(data *database.List) *libs.Response {
 	return libs.New(data, 200, false)
 }
 
-func (l *list_service) AddSub(data *database.SubList) *libs.Response {
-	validate := libs.Validation(data.SubTitle, data.SubDescription)
-	if validate != nil {
-		return libs.New(validate.Error(), 400, true)
-	}
-
-	data, err := l.list_repo.AddSub(data)
+func (l *list_service) UpdateList(data *database.List, id int) *libs.Response {
+	oldData, err := l.list_repo.FindId(id)
 	if err != nil {
 		return libs.New(err.Error(), 400, true)
 	}
-	return libs.New(data, 200, false)
-}
 
-func (l *list_service) UpdateList(data *database.List, id int) *libs.Response {
+	oldPath := "./uploads/" + oldData.File
+	if oldPath != "" {
+		os.Remove(oldPath)
+	}
+
 	validate := libs.Validation(data.Title, data.Description)
 	if validate != nil {
 		return libs.New(validate.Error(), 400, true)
 	}
 
-	data, err := l.list_repo.UpdateList(data, id)
-	if err != nil {
-		return libs.New(err.Error(), 400, true)
-	}
-	return libs.New(data, 200, false)
-}
-
-func (l *list_service) UpdateSub(data *database.SubList, id int) *libs.Response {
-	validate := libs.Validation(data.SubTitle, data.SubDescription)
-	if validate != nil {
-		return libs.New(validate.Error(), 400, true)
-	}
-
-	data, err := l.list_repo.UpdateSub(data, id)
-	if err != nil {
-		return libs.New(err.Error(), 400, true)
+	data, err1 := l.list_repo.UpdateList(data, id)
+	if err1 != nil {
+		return libs.New(err1.Error(), 400, true)
 	}
 	return libs.New(data, 200, false)
 }
 
 func (l *list_service) DeleteList(id int) *libs.Response {
-	data := l.list_repo.DeleteList(id)
-	if data != nil {
-		return libs.New(data.Error(), 400, true)
+	oldData, err := l.list_repo.FindId(id)
+	if err != nil {
+		return libs.New(err.Error(), 400, true)
 	}
-	return libs.New(data, 200, false)
-}
 
-func (l *list_service) DeleteSub(id int) *libs.Response {
-	data := l.list_repo.DeleteSub(id)
+	oldPath := "./uploads/" + oldData.File
+	if oldPath != "" {
+		os.Remove(oldPath)
+	}
+
+	data := l.list_repo.DeleteList(id)
 	if data != nil {
 		return libs.New(data.Error(), 400, true)
 	}
