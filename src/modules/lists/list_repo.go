@@ -72,7 +72,7 @@ func (l *list_repo) AddSub(data *database.SubList) (*database.SubList, error) {
 	result := l.db.Where("list_id = ?", data.ListId).Find(&list)
 
 	if result.RowsAffected == 0 {
-		return nil, errors.New("list datas is empty")
+		return nil, errors.New("list data not found")
 	}
 	if result.Error != nil {
 		return nil, errors.New("failed obtain datas list")
