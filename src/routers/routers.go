@@ -4,6 +4,7 @@ import (
 	"errors"
 
 	"github.com/adiet95/moonlay-academy-technical-test/src/database"
+	"github.com/adiet95/moonlay-academy-technical-test/src/modules/lists"
 	"github.com/labstack/echo/v4"
 )
 
@@ -15,7 +16,7 @@ func New() (*echo.Echo, error) {
 		return nil, errors.New("failed init database")
 	}
 
-	// modules.New(mainRoute, db)
+	lists.New(mainRoute, db)
 
 	return mainRoute, nil
 }

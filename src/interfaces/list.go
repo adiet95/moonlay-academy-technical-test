@@ -1,6 +1,9 @@
 package interfaces
 
-import "github.com/adiet95/moonlay-academy-technical-test/src/database"
+import (
+	"github.com/adiet95/moonlay-academy-technical-test/src/database"
+	"github.com/adiet95/moonlay-academy-technical-test/src/libs"
+)
 
 type ListRepo interface {
 	GetListWithSub(limit, offset int) (*database.Lists, error)
@@ -15,4 +18,13 @@ type ListRepo interface {
 }
 
 type ListService interface {
+	GetListWithSub(limit, offset int) *libs.Response
+	GetListWOSub(limit, offset int) *libs.Response
+	FindListId(id int) *libs.Response
+	AddList(data *database.List) *libs.Response
+	AddSub(data *database.SubList) *libs.Response
+	UpdateList(data *database.List, id int) *libs.Response
+	UpdateSub(data *database.SubList, id int) *libs.Response
+	DeleteList(id int) *libs.Response
+	DeleteSub(id int) *libs.Response
 }
