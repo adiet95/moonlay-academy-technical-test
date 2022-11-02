@@ -72,7 +72,7 @@ func UploadFile(next echo.HandlerFunc) echo.HandlerFunc {
 			libs.New("error copy filesystem", 401, true).Send(e)
 			e.Error(err)
 		}
-		// ctx := context.WithValue(e.Request().Context(), "dir", name)
+
 		e.Set("dir", name)
 		return next(e)
 	}

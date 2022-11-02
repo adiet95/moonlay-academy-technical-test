@@ -6,7 +6,7 @@ import (
 )
 
 var initCommand = cobra.Command{
-	Short: "Simple backend login & register",
+	Short: "Simple backend to-do app",
 }
 
 func init() {

@@ -60,7 +60,7 @@ func (l *list_ctrl) AddList(e echo.Context) error {
 	e.Logger().SetHeader("multipart/form-data")
 	var decoder = schema.NewDecoder()
 	var data database.List
-	file := e.Get("image")
+	file := e.Get("dir")
 
 	//file upload
 	files := file.(string)
@@ -80,7 +80,7 @@ func (l *list_ctrl) AddSub(e echo.Context) error {
 	e.Logger().SetHeader("multipart/form-data")
 	var decoder = schema.NewDecoder()
 	var data database.SubList
-	file := e.Get("image")
+	file := e.Get("dir")
 
 	//file upload
 	files := file.(string)
@@ -102,7 +102,7 @@ func (l *list_ctrl) UpdateList(e echo.Context) error {
 
 	var decoder = schema.NewDecoder()
 	var data database.List
-	file := e.Get("image")
+	file := e.Get("dir")
 
 	//file upload
 	files := file.(string)
@@ -125,7 +125,7 @@ func (l *list_ctrl) UpdateSub(e echo.Context) error {
 
 	var decoder = schema.NewDecoder()
 	var data database.SubList
-	file := e.Get("image")
+	file := e.Get("dir")
 
 	//file upload
 	files := file.(string)
