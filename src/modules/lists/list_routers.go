@@ -12,9 +12,9 @@ func New(rt *echo.Echo, db *gorm.DB) {
 	ctrl := NewCtrl(svc)
 
 	rt.GET("/:pages", ctrl.GetListWOSub)
-	rt.GET("/sub/:pages", ctrl.GetListWithSub)
-	rt.GET("/", ctrl.GetAllWithSub)
-	rt.GET("/sub", ctrl.GetAllWOSub)
+	rt.GET("/wsub/:pages", ctrl.GetListWithSub)
+	rt.GET("/wsub", ctrl.GetAllWithSub)
+	rt.GET("/", ctrl.GetAllWOSub)
 
 	rt.DELETE("/:id", ctrl.DeleteList)
 
