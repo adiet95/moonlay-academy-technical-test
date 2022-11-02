@@ -39,6 +39,12 @@ func (l *list_service) FindListId(id int) *libs.Response {
 }
 
 func (l *list_service) AddList(data *database.List) *libs.Response {
+
+	validate := libs.Validation(data.Title, data.Description)
+	if validate != nil {
+		return libs.New(validate.Error(), 400, true)
+	}
+
 	data, err := l.list_repo.AddList(data)
 	if err != nil {
 		return libs.New(err.Error(), 400, true)
@@ -47,6 +53,11 @@ func (l *list_service) AddList(data *database.List) *libs.Response {
 }
 
 func (l *list_service) AddSub(data *database.SubList) *libs.Response {
+	validate := libs.Validation(data.SubTitle, data.SubDescription)
+	if validate != nil {
+		return libs.New(validate.Error(), 400, true)
+	}
+
 	data, err := l.list_repo.AddSub(data)
 	if err != nil {
 		return libs.New(err.Error(), 400, true)
@@ -55,6 +66,11 @@ func (l *list_service) AddSub(data *database.SubList) *libs.Response {
 }
 
 func (l *list_service) UpdateList(data *database.List, id int) *libs.Response {
+	validate := libs.Validation(data.Title, data.Description)
+	if validate != nil {
+		return libs.New(validate.Error(), 400, true)
+	}
+
 	data, err := l.list_repo.UpdateList(data, id)
 	if err != nil {
 		return libs.New(err.Error(), 400, true)
@@ -63,6 +79,11 @@ func (l *list_service) UpdateList(data *database.List, id int) *libs.Response {
 }
 
 func (l *list_service) UpdateSub(data *database.SubList, id int) *libs.Response {
+	validate := libs.Validation(data.SubTitle, data.SubDescription)
+	if validate != nil {
+		return libs.New(validate.Error(), 400, true)
+	}
+
 	data, err := l.list_repo.UpdateSub(data, id)
 	if err != nil {
 		return libs.New(err.Error(), 400, true)

@@ -58,10 +58,9 @@ func (l *list_repo) FindListId(id int) (*database.List, error) {
 }
 
 func (l *list_repo) AddList(data *database.List) (*database.List, error) {
-
 	res := l.db.Create(data)
 	if res.Error != nil {
-		return nil, errors.New("failed create data list")
+		return nil, errors.New("failed to create data list")
 	}
 
 	return data, nil
@@ -100,7 +99,7 @@ func (l *list_repo) UpdateList(data *database.List, id int) (*database.List, err
 
 	res := l.db.Where("list_id = ?", id).Updates(data)
 	if res.Error != nil {
-		return nil, errors.New("failed obtain datas list")
+		return nil, errors.New("failed update datas list")
 	}
 
 	return data, nil
