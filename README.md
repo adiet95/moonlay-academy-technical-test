@@ -68,7 +68,7 @@ go mod vendor
   PORT = Your Port
 ```
 
-4. Database Migration and Rollback
+4. Database Migration
 
 ```bash
 go run main.go migrate --up //for database migration table
