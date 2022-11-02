@@ -35,10 +35,10 @@ func UploadFile(next echo.HandlerFunc) echo.HandlerFunc {
 			e.Error(err)
 		}
 
-		filetype := http.DetectContentType(buff)
-		if filetype != "image/jpeg" && filetype != "image/png" {
+		checkType := fileHeader.Header.Get("Content-Type") == "text/plain" || fileHeader.Header.Get("Content-Type") == "application/pdf"
+		if !checkType {
 			libs.New("Extension file not allowed", 401, true).Send(e)
-			e.Error(err)
+			return err
 		}
 
 		_, err = file.Seek(0, io.SeekStart)
