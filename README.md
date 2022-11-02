@@ -7,6 +7,7 @@ Selamat datang di **Moonlay Academy - Technical Test.**
 Mini App for list todo and add some sublist basely with Golang, Echo v4 REST API Framework, GORM for Object relation model, PostgreSQL for database.
 
 ## 🔗 Description
+```bash
 ### Spesifikasi Bisnis :
 - Menampilkan, menambahkan, mengubah dan menghapus data.
 - Dapat menambahkan sub list untuk setiap list yang terdaftar. Sub list bisa ditambah, diubah dan dihapus. ( hanya 2 level )
@@ -25,6 +26,7 @@ Menambahkan data list.
 Menambahkan data sub list untuk spesifik list.
 Mengubah data list/sub list dengan kritera input diatas.
 Menghapus data list/sub list.
+```
 
 ## Notes :
 1. In POST & PUT List can attach .pdf / .txt file, use Form Data for it.
