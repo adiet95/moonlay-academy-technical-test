@@ -8,7 +8,7 @@ Mini App for list todo and add some sublist basely with Golang, Echo v4 REST API
 
 ## 🔗 Description
 ```bash
-### Spesifikasi Bisnis :
+Spesifikasi Bisnis :
 - Menampilkan, menambahkan, mengubah dan menghapus data.
 - Dapat menambahkan sub list untuk setiap list yang terdaftar. Sub list bisa ditambah, diubah dan dihapus. ( hanya 2 level )
 
@@ -135,6 +135,7 @@ not needed
 ## POST DATA
 ### POST /list
 > Post Data List, Use Form data to attach
+
 _Request Body_
 ```
 title : (your title)
@@ -147,6 +148,7 @@ no need
 ```
 ### POST /sub
 > Post Data Sublist, Use Body raw
+
 _Request Body_
 ```
 {
@@ -163,6 +165,7 @@ no need
 ## UPDATE DATA
 ### PUT /list/:id
 > Update Data List By id, Use Form data to attach
+
 _Request Body_
 ```
 title : (your title)
@@ -177,6 +180,7 @@ no need
 ## DELETE DATA
 ### DELETE /:id
 > Delete Data List By Id List
+
 _Request Body_
 ```
 no need
@@ -187,6 +191,7 @@ no need
 ```
 ### DELETE /sub/:id
 > Delete Data Sublist By Id Sublist
+
 _Request Body_
 ```
 no need
@@ -197,8 +202,9 @@ no need
 ```
 
 ## FIND SUBLIST BY LIST ID
-### GET /cart/name
+### GET /find/:id
 > Search Data Sublist With List ID
+
 _Request Body_
 ```
 no need
@@ -211,7 +217,7 @@ no need
 ## 💻 Built with
 
 - [Golang](https://go.dev/): Go Programming Language
-- [Gin-Gonic](https://gin-gonic.com/): for handle http request
+- [Echo v4](https://echo.labstack.com/): for handle http request
 - [Postgres](https://www.postgresql.org/): for DBMS
 
 
