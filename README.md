@@ -19,14 +19,18 @@ Data Input untuk masing-masing list/sub list :
 
 Buat API Todo List dengan kriteria sebagai berikut :
 
-Menampilkan data list tanpa sub list ( dengan dan tanpa pagination ).
-Menampilkan data list beserta dengan sub list nya jika ada.
-Menampilkan data sub list by list id.
-Menambahkan data list.
-Menambahkan data sub list untuk spesifik list.
-Mengubah data list/sub list dengan kritera input diatas.
-Menghapus data list/sub list.
+1. Menampilkan data list tanpa sub list ( dengan dan tanpa pagination ).
+2. Menampilkan data list beserta dengan sub list nya jika ada.
+3. Menampilkan data sub list by list id.
+4. Menambahkan data list.
+5. Menambahkan data sub list untuk spesifik list.
+6. Mengubah data list/sub list dengan kritera input diatas.
+7. Menghapus data list/sub list.
 ```
+<h2 align="center">
+ ERD (Entity Relation Database)
+</h2>
+<p align="center"><img src="https://res.cloudinary.com/dw5qffbop/image/upload/v1667434222/ERD_fhgvu3.png" alt="erd.jpg" /></p>
 
 ## Notes :
 1. In POST & PUT List can attach .pdf / .txt file, use Form Data for it.
